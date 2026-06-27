@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Players Scores</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      margin: 0;
+      padding: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    caption {
+      font-size: 1.6em;
+      font-weight: bold;
+      padding: 15px;
+      background: #4A90E2;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    thead {
+      background: #4A90E2;
+      color: white;
+    }
+
+    thead th {
+      padding: 14px;
+      font-size: 1.1em;
+      text-align: left;
+    }
+
+    tbody tr {
+      transition: background 0.3s ease;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      font-size: 1em;
+    }
+
+    tbody tr:hover {
+      background: #e6f2ff;
+      transform: scale(1.01);
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <caption>Players Scores</caption>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Match</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Rohit Sharma</td>
+        <td>100</td>
+        <td>IPL</td>
+      </tr>
+      <tr>
+        <td>Virat Kohli</td>
+        <td>10</td>
+        <td>IPL</td>
+      </tr>
+      <tr>
+        <td>Hardik Pandya</td>
+        <td>70</td>
+        <td>IPL</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

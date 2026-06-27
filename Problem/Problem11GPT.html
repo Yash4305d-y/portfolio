@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Booking</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      animation: fadeUp 1s ease-in-out;
+    }
+
+    form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 24px;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    div {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      animation: slideIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    /* staggered animation for inputs */
+    div:nth-child(2) { animation-delay: 0.2s; }
+    div:nth-child(3) { animation-delay: 0.4s; }
+    div:nth-child(4) { animation-delay: 0.6s; }
+    div:nth-child(5) { animation-delay: 0.8s; }
+    div:nth-child(6) { animation-delay: 1s; }
+
+    label {
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #333;
+      font-size: 14px;
+    }
+
+    input {
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #4facfe;
+      outline: none;
+      animation: glow 1s infinite alternate;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+      background: linear-gradient(to right, #00f2fe, #4facfe);
+      animation: bounce 0.6s;
+    }
+
+    /* Keyframes */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-40px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 5px rgba(79, 172, 254, 0.6); }
+      to { box-shadow: 0 0 15px rgba(0, 242, 254, 0.9); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <h2>Travel Booking Form</h2>
+    <div>
+      <label for="name">NAME</label>
+      <input id="name" type="text" placeholder="Enter your name">
+    </div>
+    <div>
+      <label for="age">AGE</label>
+      <input id="age" type="text" placeholder="Enter your age">
+    </div>
+    <div>
+      <label for="phone">PHONE NO.</label>
+      <input id="phone" type="tel" placeholder="Enter your phone no.">
+    </div>
+    <div>
+      <label for="email">EMAIL</label>
+      <input id="email" type="email" placeholder="Enter your email">
+    </div>
+    <div>
+      <label for="placetogo">PLACE YOU WANT TO VISIT</label>
+      <input id="placetogo" type="text" placeholder="Enter place you want to visit">
+    </div>
+    <button type="submit">Book Now</button>
+  </form>
+</body>
+</html> 

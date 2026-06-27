@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Booking</title>
+    
+    <style>
+        /* --- Google Font Import --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- Keyframe Animations --- */
+        @keyframes animateGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* --- General Body & Page Styling --- */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0, #0d47a1);
+            background-size: 400% 400%; /* Make gradient larger for animation */
+            padding: 15px;
+            box-sizing: border-box;
+            /* Applying the background animation */
+            animation: animateGradient 15s ease infinite; 
+        }
+
+        /* --- Form Container Styling --- */
+        form {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            /* Applying the form load-in animation */
+            animation: fadeInUp 0.7s ease-out forwards;
+        }
+        
+        /* --- Main Title (H1) Styling --- */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        /* --- Input Field Containers --- */
+        form div {
+            margin-bottom: 20px;
+            position: relative;
+            /* Hide initially for staggered animation */
+            opacity: 0;
+            /* Apply staggered animation to each form field */
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* --- Staggered Animation Delay for each field --- */
+        form div:nth-of-type(1) { animation-delay: 0.3s; }
+        form div:nth-of-type(2) { animation-delay: 0.4s; }
+        form div:nth-of-type(3) { animation-delay: 0.5s; }
+        form div:nth-of-type(4) { animation-delay: 0.6s; }
+        form div:nth-of-type(5) { animation-delay: 0.7s; }
+        button { animation-delay: 0.9s; } /* Animate button last */
+
+
+        /* --- Label Styling --- */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Input Field Styling --- */
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* --- Placeholder Text Styling --- */
+        input::placeholder {
+            color: #aaa;
+        }
+
+        /* --- Focus Effect on Input Fields --- */
+        input:focus {
+            outline: none;
+            border-color: #2193b0;
+            box-shadow: 0 0 8px rgba(33, 147, 176, 0.3);
+        }
+
+        /* --- Submit Button Styling --- */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+            opacity: 0; /* Hide initially for animation */
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <form action="">
+        <h1>Book Your Dream Vacation ✈️</h1>
+        <div>
+            <label for="name">NAME</label>
+            <input id="name" type="text" placeholder="Enter your name">
+        </div>
+        <div>
+            <label for="age">AGE</label>
+            <input id="age" type="text" placeholder="Enter your age">
+        </div>
+        <div>
+            <label for="phone">PHONE NO.</label>
+            <input id="phone" type="tel" placeholder="Enter your phone no.">
+        </div>
+        <div>
+            <label for="email">EMAIL</label>
+            <input id="email" type="email" placeholder="Enter your email">
+        </div>
+        <div>
+            <label for="placetogo">DESTINATION</label>
+            <input id="placetogo" type="text" placeholder="e.g., Paris, Tokyo, Bali">
+        </div>
+        <button type="submit">Book Now</button>
+    </form>
+
+</body>
+</html>

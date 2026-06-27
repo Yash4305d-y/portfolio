@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Player Scores</title>
+    <style>
+        /* Keyframe for table fade-in and slide-up */
+        @keyframes tableEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            } 
+        }
+
+        /* Keyframe for row pulse on hover */
+        @keyframes rowPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+            100% { transform: scale(1); }
+        }
+
+        /* General body styling with vibrant gradient background */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FF6B6B, #FFD93D, #6BCB77, #4D96FF);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            overflow: hidden; /* Prevent scrollbars from gradient animation */
+        }
+
+        /* Keyframe for background gradient animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Table container styling with entrance animation */
+        table {
+            width: 80%;
+            max-width: 800px;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #ffffff; /* White background for the table content */
+            animation: tableEntrance 0.8s ease-out forwards; /* Apply entrance animation */
+            opacity: 0; /* Start invisible for animation */
+        }
+
+        /* Caption styling */
+        caption {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #ffffff; /* White caption for contrast */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: tableEntrance 1s ease-out forwards; /* Caption animates slightly later */
+            opacity: 0;
+            animation-delay: 0.2s;
+        }
+
+        /* Table header styling */
+        thead tr {
+            background-color: #007bff; /* A distinct header color */
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid #0056b3;
+        }
+
+        /* Table header and cell padding */
+        th, td {
+            padding: 15px 20px;
+            border-right: 1px solid #e0e0e0; /* Light separator for columns */
+        }
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #eeeeee;
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        /* Zebra-striping for rows */
+        tbody tr:nth-of-type(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Styling for the last row */
+        tbody tr:last-of-type {
+            border-bottom: none; /* No bottom border for the very last row */
+        }
+
+        /* Hover effect for rows with pulse animation */
+        tbody tr:hover {
+            background-color: #e0f7fa; /* Lighter blue on hover */
+            color: #0056b3;
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: rowPulse 0.6s ease-in-out infinite; /* Apply pulse animation */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <caption>Players Scores 🏏✨</caption>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Match</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Rohit sharma</td>
+                <td>100</td>
+                <td>IPL</td>
+            </tr>
+            <tr>
+                <td>Virat kohli</td>
+                <td>10</td>
+                <td>IPL</td>
+            </tr>
+            <tr>
+                <td>Hardik pandya</td>
+                <td>70</td>
+                <td>IPL</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

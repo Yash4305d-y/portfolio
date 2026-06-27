@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yash Vinay Kalyani | Software Developer</title>
+    <style>
+        /* --- 1. THEME VARIABLES --- */
+        :root {
+            --background: #020617;
+            --foreground: #f8fafc;
+            --primary: #22c55e;   /* Green */
+            --accent: #8b5cf6;    /* Purple */
+            --accent-2: #3b82f6;  /* Blue */
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --border: rgba(148, 163, 184, 0.1);
+            --glow-primary: rgba(34, 197, 94, 0.5);
+            --glow-accent: rgba(139, 92, 246, 0.5);
+        }
+
+        /* --- 1.5 DYNAMIC THEMES --- */
+        body.theme-hydro {
+            --primary: #0ea5e9;   /* Ocean Blue */
+            --accent: #8b5cf6;    /* Deep Purple */
+            --accent-2: #38bdf8;  /* Light Blue */
+            --glow-primary: rgba(14, 165, 233, 0.5);
+            --glow-accent: rgba(139, 92, 246, 0.5);
+        }
+
+        body.theme-anemo {
+            --primary: #14b8a6;   /* Teal */
+            --accent: #2dd4bf;    /* Mint */
+            --accent-2: #0d9488;  /* Dark Teal */
+            --glow-primary: rgba(20, 184, 166, 0.5);
+            --glow-accent: rgba(45, 212, 191, 0.5);
+        }
+
+        /* Theme Toggle Button Styling */
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--foreground);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-left: 30px;
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--glow-primary);
+            transform: translateY(-2px);
+        }
+        /* --- 2. RESET & BASE --- */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            cursor: none; 
+        }
+
+        /* ADD THIS NEW BLOCK */
+        html {
+            scroll-padding-top: 120px; /* Creates a buffer for your fixed nav */
+            scroll-behavior: smooth;   /* Adds a buttery smooth scroll effect */
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            overflow-x: hidden;
+            overflow-y: hidden; /* Locked during load */
+            line-height: 1.6;
+        }
+
+        body.loaded { overflow-y: auto; }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--background); }
+        ::-webkit-scrollbar-thumb { background: #15803d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* --- 3. CUSTOM CURSOR STYLES --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid var(--primary);
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+        }
+
+        body.hovering .cursor-outline {
+            width: 70px; height: 70px;
+            background-color: rgba(34, 197, 94, 0.1); 
+            border-color: transparent;
+            box-shadow: 0 0 30px var(--glow-primary);
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- 4. UTILITIES & ANIMATIONS --- */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--accent-2));
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating { animation: float 4s ease-in-out infinite; }
+
+        /* Pure CSS Animated Line */
+        .animated-line {
+            height: 3px;
+            width: 200px;
+            margin: 40px auto 0 auto;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+            background-size: 200% 100%;
+            animation: lineFlow 2.5s linear infinite;
+            border-radius: 50px;
+            box-shadow: 0 0 15px var(--glow-primary);
+        }
+
+        @keyframes lineFlow {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glass:hover::before {
+            opacity: 1;
+            animation: rotateGlow 4s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .glass > * { position: relative; z-index: 1; }
+
+        .glow-hover { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .glow-hover:hover {
+            box-shadow: 0 0 25px var(--glow-primary);
+            border-color: var(--primary);
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        /* --- 5. LOADING SCREEN --- */
+        #loader {
+            position: fixed; inset: 0; z-index: 9990;
+            background: var(--background);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.8s ease;
+        }
+        
+        .logo-box {
+            width: 100px; height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; font-weight: 900; color: white;
+            position: relative; box-shadow: 0 0 30px var(--glow-primary);
+            margin-bottom: 40px; animation: pulse-shadow 2s infinite;
+        }
+        .orbit-dot {
+            position: absolute; width: 12px; height: 12px;
+            background: var(--accent); border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .code-container {
+            font-family: 'Courier New', monospace; font-size: 0.9rem; color: #94a3b8;
+            margin-bottom: 30px; text-align: left; width: 300px; min-height: 120px;
+        }
+        .code-line {
+            opacity: 0; transform: translateX(-20px); transition: 0.3s;
+            margin-bottom: 5px; display: flex; gap: 10px;
+        }
+        .code-line.visible { opacity: 1; transform: translateX(0); }
+        .checkmark { color: var(--primary); }
+        .progress-container {
+            width: 300px; height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.1s linear;
+        }
+
+        /* --- 6. PAGE CONTENT --- */
+        #canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.5; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s;
+        }
+        nav:hover { background: rgba(2, 6, 23, 0.8); }
+        .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
+
+        .nav-links a { position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 120px 20px 50px 20px; }
+        /* --- 4.5 ADVANCED SCROLL ANIMATIONS --- */
+/* Base section styling without the heavy animation */
+.section { 
+    margin-bottom: 80px; 
+}
+
+/* The Base Reveal Class */
+.reveal {
+    opacity: 0;
+    /* Using a custom cubic-bezier for a very smooth, "snappy" easing */
+    transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: opacity, transform; /* Performance boost */
+}
+
+/* The Active State (Triggered by JS) */
+.reveal.active { 
+    opacity: 1; 
+    transform: translate(0, 0) scale(1); 
+}
+
+/* Directional & Scale Variants */
+.reveal-up { transform: translateY(60px); }
+.reveal-left { transform: translateX(-80px); }
+.reveal-right { transform: translateX(80px); }
+.reveal-scale { transform: scale(0.85); opacity: 0; }
+
+/* Stagger Delays for Grids (Skills, Projects) */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
+
+        .hero { text-align: center; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .hero h1 { font-size: 4rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; letter-spacing: -1.5px; }
+        .hero p { font-size: 1.2rem; color: #94a3b8; max-width: 700px; font-weight: 500; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; }
+
+        /* Typography & Content Formatting */
+        .card-content p { color: #cbd5e1; margin-bottom: 15px; }
+        .edu-item { margin-bottom: 25px; padding-left: 20px; border-left: 2px solid var(--accent); }
+        .edu-item h4 { color: var(--foreground); font-size: 1.1rem; margin-bottom: 5px; }
+        .edu-item p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 0; }
+        
+        .list-item { display: flex; align-items: flex-start; margin-bottom: 15px; }
+        .list-icon { margin-right: 15px; font-size: 1.3rem; }
+        .list-text { color: #cbd5e1; }
+
+        .skill-card { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .skill-card img, .skill-card svg { height: 55px; margin-bottom: 15px; transition: 0.3s; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3)); }
+        .skill-card:hover img, .skill-card:hover svg { transform: scale(1.15) rotate(5deg); }
+        .skill-card span { font-weight: 600; letter-spacing: 0.5px; }
+        
+        .stat-card { padding: 20px; display: flex; justify-content: center; align-items: center; }
+
+        footer { border-top: 1px solid var(--border); padding: 40px; text-align: center; color: #64748b; }
+        .footer-links a { margin: 0 10px; color: #cbd5e1; font-weight: 500; }
+        .footer-links a:hover { color: var(--primary); }
+
+        @keyframes pulse-shadow {
+            0%, 100% { box-shadow: 0 0 20px var(--glow-primary); }
+            50% { box-shadow: 0 0 50px var(--glow-accent); }
+        }
+        /* --- 7. PROJECT CARDS --- */
+        .project-card {
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            text-align: left;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.9));
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .project-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--foreground);
+            letter-spacing: -0.5px;
+        }
+
+        .project-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .tech-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--accent-2); /* Blue accent */
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .project-features {
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .project-features li {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .project-features li::before {
+            content: '▹';
+            color: var(--accent); /* Purple accent */
+            font-size: 1.1rem;
+            font-weight: bold;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .btn-github {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--foreground);
+        }
+
+        .btn-github:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        /* --- 8. CTA / CONTACT SECTION --- */
+        .cta-card {
+            padding: 60px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.05), rgba(139, 92, 246, 0.05));
+            border-color: rgba(139, 92, 246, 0.3);
+            margin-top: 20px;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .cta-desc {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 35px auto;
+            line-height: 1.7;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            border: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            color: white;
+        }
+        /* --- TIMELINE STYLES --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: rgba(139, 92, 246, 0.3); /* Dim purple line */
+            top: 0; bottom: 0; left: 50%;
+            margin-left: -1px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background: inherit;
+            width: 50%;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            right: -8px;
+            background: var(--background);
+            border: 2px solid var(--accent);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+        .timeline-item.active::after {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--glow-primary);
+        }
+        .left-timeline { left: 0; }
+        .right-timeline { left: 50%; }
+        .right-timeline::after { left: -8px; }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+        .timeline-date {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .left-timeline::after, .right-timeline::after { left: 23px; }
+            .right-timeline { left: 0%; }
+        }
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            * { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+            .hero h1 { font-size: 2.8rem; }
+            .grid-2 { grid-template-columns: 1fr; gap: 20px; }
+            nav { padding: 20px; }
+            .nav-links { display: none; }
+            .card-content { padding: 30px; }
+        }
+
+        /* --- Restore Hover Effects on Revealed Elements --- */
+        .glow-hover.reveal.active:hover {
+            box-shadow: 0 0 25px var(--glow-primary);
+            border-color: var(--primary);
+            transform: translateY(-5px) scale(1.02) !important;
+            /* Switch back to the faster, snappier transition for hovering */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <canvas id="canvas-bg"></canvas>
+
+    <div id="loader">
+        <div class="logo-box">
+            YK
+            <div class="orbit-dot" id="orbit1"></div>
+        </div>
+        <div class="code-container" id="code-box"></div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div style="margin-top:10px; font-family:monospace; color:#64748b;" id="loading-text">Initializing portfolio... 0%</div>
+    </div>
+
+    <nav>
+        <div class="logo text-gradient hover-trigger">YASH VINAY KALYANI ⚡</div>
+        <div class="nav-links" style="display: flex; align-items: center;">
+            <a href="#about" class="hover-trigger" style="margin-left: 20px;">About</a>
+            <a href="#education" class="hover-trigger" style="margin-left: 20px;">Background</a>
+            <a href="#skills" class="hover-trigger" style="margin-left: 20px;">Skills</a>
+            <a href="#projects" class="hover-trigger" style="margin-left: 20px;">Projects</a>
+            
+            <button class="theme-btn hover-trigger" id="theme-toggle-btn" onclick="cycleTheme()">
+                🎨 <span id="theme-label">Cyberpunk</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <section class="section hero">
+            <h1 class="text-gradient floating cursor-blink" id="typewriter-text" style="min-height: 80px;"></h1>
+            <p style="font-size: 1.2rem; color: #94a3b8; max-width: 700px; font-weight: 500; letter-spacing: 1px;">Driven by Curiosity, Defined by Impact.</p>
+            <div class="animated-line hover-trigger"></div>
+        </section>
+
+        <section class="section grid-2" id="about">
+            <div class="glass card card-content glow-hover hover-trigger reveal reveal-left" style="padding: 40px;">
+                <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 20px;">About Me</h2>
+                <p>
+                    I'm a first-year B.Tech Computer Science student at <b>Guru Ghasidas Vishwavidyalaya (Central University)</b>, passionate about software development, automation, and building practical solutions to real-world problems.
+                </p>
+                <p>
+                    I enjoy learning new technologies and transforming ideas into functional applications. My interests include Python development, web development, APIs, automation, and artificial intelligence. I'm constantly improving my programming skills by building projects, participating in hackathons, and contributing to my GitHub portfolio.
+                </p>
+                <p>
+                    Currently, I'm focused on strengthening my problem-solving abilities, mastering Python, exploring modern web technologies, and preparing myself for software engineering internships and open-source contributions.
+                </p>
+            </div>
+            
+            <div class="glass card card-content glow-hover hover-trigger reveal reveal-right delay-200" style="padding: 40px; display: flex; flex-direction: column; justify-content: center;">
+                <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 20px;">Career Objective 🎯</h2>
+                <p style="font-size: 1.1rem; border-left: 4px solid var(--primary); padding-left: 20px; font-style: italic;">
+                    "My goal is to become a skilled software engineer who builds impactful and scalable applications. I aim to continuously learn emerging technologies, contribute to open-source projects, and develop innovative software that solves real-world problems."
+                </p>
+            </div>
+        </section>
+
+        <section class="section grid-2" id="education">
+            <div class="glass card card-content glow-hover hover-trigger" style="padding: 40px;">
+                <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 30px;">Education</h2>
+                
+                <div class="edu-item">
+                    <h4>B.Tech in Computer Science & Engineering</h4>
+                    <p>Guru Ghasidas Vishwavidyalaya (Central University)</p>
+                    <p style="color: var(--primary); font-size: 0.85rem; margin-top: 5px;">2025 – 2029</p>
+                </div>
+
+                <div class="edu-item">
+                    <h4>Higher Secondary Education</h4>
+                    <p>St. Aloysius School, Shahdol</p>
+                    <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 5px;">Class XII: <b>90.8%</b> | Class X: <b>96.2%</b></p>
+                </div>
+            </div>
+
+            <div class="glass card card-content glow-hover hover-trigger" style="padding: 40px;">
+                <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 30px;">Achievements & Certs</h2>
+                
+                <div class="list-item">
+                    <div class="list-icon">🏆</div>
+                    <div class="list-text"><b>Qualified Smart India Hackathon</b> (Internal Round)</div>
+                </div>
+                
+                <div class="list-item">
+                    <div class="list-icon">☁️</div>
+                    <div class="list-text"><b>Google Cloud Study Jam</b> Certification</div>
+                </div>
+
+                
+
+                <div class="list-item">
+                    <div class="list-icon">💻</div>
+                    <div class="list-text">Built multiple software projects using <b>Python and C</b>. Continuously expanding knowledge in APIs and AI technologies.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="journey">
+            <h2 class="text-gradient reveal reveal-up" style="font-size: 2.5rem; margin-bottom: 50px; text-align: center;">The Journey So Far</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item left-timeline reveal reveal-right delay-100">
+                    <div class="timeline-content glow-hover">
+                        <span class="timeline-date">January 2026</span>
+                        <h3 style="color: var(--foreground); margin-bottom: 10px;">HackXsprint Finalist</h3>
+                        <p style="color: #94a3b8; font-size: 0.95rem;">Competed against top teams in a fast-paced college-level hackathon, rapidly prototyping and pitching a functional solution.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item right-timeline reveal reveal-left delay-300">
+                    <div class="timeline-content glow-hover">
+                        <span class="timeline-date">October 2025</span>
+                        <h3 style="color: var(--foreground); margin-bottom: 10px;">Google Cloud Study Jams</h3>
+                        <p style="color: #94a3b8; font-size: 0.95rem;">Completed intensive cloud computing modules, gaining hands-on experience with Google Cloud infrastructure and deployment environments.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item left-timeline reveal reveal-right delay-500">
+                    <div class="timeline-content glow-hover">
+                        <span class="timeline-date">September 2025</span>
+                        <h3 style="color: var(--foreground); margin-bottom: 10px;">Smart India Hackathon</h3>
+                        <p style="color: #94a3b8; font-size: 0.95rem;">Successfully qualified in the rigorous internal round, validating problem-solving capabilities and team-based development skills.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="skills">
+            <h2 class="text-gradient reveal reveal-up" style="font-size: 2.5rem; margin-bottom: 50px; text-align: center;">Tech Arsenal</h2>
+            <div class="grid-4">
+                
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-100">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                    <span>Python</span>
+                </div>
+                
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-200">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C">
+                    <span>C</span>
+                </div>
+                
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-300">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy">
+                    <span>NumPy</span>
+                </div>
+                
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-400">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas">
+                    <span>Pandas</span>
+                </div>
+
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-100">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg" alt="Matplotlib">
+                    <span>Matplotlib</span>
+                </div>
+                
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-200">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #4c72b0; width: 50px;">
+                        <path d="M3 3v18h18"/><path d="M18 10l-5 5-4-4-6 6"/><circle cx="7" cy="19" r="2" fill="#4c72b0" stroke="none"/><circle cx="13" cy="13" r="2" fill="#4c72b0" stroke="none"/><circle cx="19" cy="9" r="2" fill="#4c72b0" stroke="none"/>
+                    </svg>
+                    <span>Seaborn</span>
+                </div>
+                
+                <div class="glass skill-card glow-hover hover-trigger reveal reveal-scale delay-300">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                    <span>Git</span>
+                </div>
+                
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <h2 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 50px; text-align: center;">Featured Projects</h2>
+            
+            <div class="grid-2" style="margin-bottom: 50px;">
+                <div class="glass project-card glow-hover hover-trigger reveal reveal-up delay-100">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                                <circle cx="12" cy="5" r="2"></circle>
+                                <path d="M12 7v4"></path>
+                                <line x1="8" y1="16" x2="8" y2="16"></line>
+                                <line x1="16" y1="16" x2="16" y2="16"></line>
+                            </svg>
+                        </div>
+                        <h3 class="project-title">AI Chatbot</h3>
+                    </div>
+                    
+                    <p class="project-desc">
+                        A fast and intelligent chatbot built with Python that integrates Groq's API to generate natural, real-time AI conversations. Designed with clean architecture and optimized for quick responses.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Groq API</span>
+                        <span class="tech-badge">Requests</span>
+                        <span class="tech-badge">JSON</span>
+                    </div>
+                    
+                    <ul class="project-features">
+                        <li>AI-powered conversations</li>
+                        <li>Real-time responses</li>
+                        <li>API integration</li>
+                        <li>Lightweight architecture</li>
+                        <li>Clean command-line interface</li>
+                    </ul>
+                    
+                    <div class="project-actions" style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                        <a href="https://github.com/Yash4305d-y/AI_Chatbot.git" target="_blank" class="btn btn-github hover-trigger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            View Code
+                        </a>
+                        <div style="color: #94a3b8; font-size: 0.9rem; display: flex; gap: 15px;">
+                            <span>⭐ <span id="cb-stars">0</span></span>
+                            <span>🍴 <span id="cb-forks">0</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass project-card glow-hover hover-trigger reveal reveal-up delay-300">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                <polyline points="12 11 9 14 12 17"></polyline>
+                                <path d="M9 14h8"></path>
+                            </svg>
+                        </div>
+                        <h3 class="project-title">Automated File Backup</h3>
+                    </div>
+                    
+                    <p class="project-desc">
+                        A Python desktop application that automatically copies files from one folder to another at scheduled times or on demand. It provides a simple interface for selecting source and destination folders while ensuring reliable and efficient file backups.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Tkinter</span>
+                        <span class="tech-badge">OS Module</span>
+                        <span class="tech-badge">Shutil</span>
+                        <span class="tech-badge">Schedule</span>
+                    </div>
+                    
+                    <ul class="project-features">
+                        <li>Automatic scheduled backups</li>
+                        <li>Manual one-click backup</li>
+                        <li>Folder selection GUI</li>
+                        <li>Fast file copying</li>
+                        <li>Reliable backup automation</li>
+                    </ul>
+                    
+                    <div class="project-actions" style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                        <a href="https://github.com/Yash4305d-y/Automated_file_backup.git" target="_blank" class="btn btn-github hover-trigger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            View Code
+                        </a>
+                        <div style="color: #94a3b8; font-size: 0.9rem; display: flex; gap: 15px;">
+                            <span>⭐ <span id="bk-stars">0</span></span>
+                            <span>🍴 <span id="bk-forks">0</span></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="glass project-card glow-hover hover-trigger reveal reveal-up delay-100">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+                        </div>
+                        <h3 class="project-title">LocalNet</h3>
+                    </div>
+                    
+                    <p class="project-desc">
+                        An "Internet without Internet" offline mesh communication system. It leverages proximity-based APIs to allow devices to connect, communicate, and share data completely off the grid.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">Nearby Connections API</span>
+                        <span class="tech-badge">Mesh Networking</span>
+                    </div>
+                    
+                    <ul class="project-features">
+                        <li>Decentralized communication</li>
+                        <li>Zero internet dependency</li>
+                        <li>Automated peer discovery</li>
+                    </ul>
+                    
+                    <div class="project-actions">
+                        <a href="#" class="btn btn-github hover-trigger">View Code</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="glass project-card glow-hover hover-trigger reveal reveal-up delay-300">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        </div>
+                        <h3 class="project-title">AI Traffic Management</h3>
+                    </div>
+                    
+                    <p class="project-desc">
+                        A computer vision model designed to intelligently monitor and manage traffic flow. It utilizes advanced object detection to analyze vehicle density and optimize signal routing.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">YOLO</span>
+                        <span class="tech-badge">OpenCV</span>
+                        <span class="tech-badge">Machine Learning</span>
+                    </div>
+                    
+                    <ul class="project-features">
+                        <li>Real-time object detection</li>
+                        <li>Vehicle density calculation</li>
+                        <li>High accuracy processing</li>
+                    </ul>
+                    
+                    <div class="project-actions">
+                        <a href="#" class="btn btn-github hover-trigger">View Code</a>
+                    </div>
+                </div>
+            </div>
+
+            
+        </section>
+
+        <section class="section" id="interests">
+            <h2 class="text-gradient reveal reveal-up" style="font-size: 2.5rem; margin-bottom: 50px; text-align: center;">What I Do</h2>
+            
+            <div class="grid-2">
+                <div class="glass card card-content glow-hover hover-trigger reveal reveal-left delay-100" style="padding: 40px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">🌐</div>
+                    <h3 style="color: var(--foreground); font-size: 1.5rem; margin-bottom: 15px;">Backend Automation</h3>
+                    <p>
+                        Writing Python scripts to automate boring, repetitive tasks. I love working with the OS module, file manipulation, and scheduling scripts to run autonomously so I can focus on building cool stuff.
+                    </p>
+                </div>
+
+                <div class="glass card card-content glow-hover hover-trigger reveal reveal-right delay-200" style="padding: 40px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">🤖</div>
+                    <h3 style="color: var(--foreground); font-size: 1.5rem; margin-bottom: 15px;">AI & API Integration</h3>
+                    <p>
+                        Fascinated by the world of Artificial Intelligence. I enjoy connecting applications to powerful LLMs (like Groq and OpenAI) to create intelligent chatbots and smart, context-aware software.
+                    </p>
+                </div>
+
+                <div class="glass card card-content glow-hover hover-trigger reveal reveal-left delay-100" style="padding: 40px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">📊</div>
+                    <h3 style="color: var(--foreground); font-size: 1.5rem; margin-bottom: 15px;">Data Processing</h3>
+                    <p>
+                        Using libraries like Pandas and NumPy to clean, analyze, and visualize data. I believe data tells a story, and I am learning how to build software that extracts valuable insights from raw information.
+                    </p>
+                </div>
+
+                <div class="glass card card-content glow-hover hover-trigger reveal reveal-right delay-200" style="padding: 40px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">⚙️</div>
+                    <h3 style="color: var(--foreground); font-size: 1.5rem; margin-bottom: 15px;">Core Programming</h3>
+                    <p>
+                        Building a strong foundation in Data Structures and Algorithms using C and Python. I enjoy competitive programming and solving algorithmic puzzles to sharpen my logical thinking.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="terminal-section" style="margin-top: 50px;">
+            <div class="glass reveal reveal-scale delay-200 hover-trigger" style="max-width: 800px; margin: 0 auto; border: 1px solid rgba(34, 197, 94, 0.3); overflow: hidden;">
+                
+                <div style="background: rgba(0, 0, 0, 0.5); padding: 10px 20px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <div style="display: flex; gap: 8px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444;"></div>
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #eab308;"></div>
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></div>
+                    </div>
+                    <div style="margin-left: 20px; color: #94a3b8; font-family: monospace; font-size: 0.9rem;">yash@dev-machine:~</div>
+                </div>
+
+                <div style="padding: 30px; font-family: 'Courier New', monospace; font-size: 1rem; color: #cbd5e1; line-height: 1.8;">
+                    <p><span style="color: var(--primary);">yash@dev-machine:~$</span> whoami</p>
+                    <p style="margin-bottom: 15px; color: #94a3b8;">> Yash Vinay Kalyani | Tech Enthusiast | Developer-in-Training</p>
+                    
+                    <p><span style="color: var(--primary);">yash@dev-machine:~$</span> cat philosophy.txt</p>
+                    <p style="margin-bottom: 15px; color: #94a3b8;">> "First, solve the problem. Then, write the code. Always keep learning, stay curious, and never be afraid to break things in pursuit of figuring out how they work."</p>
+                    
+                    <p><span style="color: var(--primary);">yash@dev-machine:~$</span> ping -c 3 future-goals</p>
+                    <p style="color: #94a3b8;">
+                        PING future-goals (127.0.0.1): 56 data bytes<br>
+                        64 bytes: Master Full-Stack Development time=0.1ms<br>
+                        64 bytes: Contribute to Major Open Source time=0.2ms<br>
+                        64 bytes: Land a Software Engineering Internship time=0.1ms
+                    </p>
+                    <p style="margin-top: 15px;"><span style="color: var(--primary);">yash@dev-machine:~$</span> <span class="cursor-blink" style="background: var(--primary); width: 10px; display: inline-block;">&nbsp;</span></p>
+                </div>
+            </div>
+        </section>
+
+    
+
+        <section class="section" id="contact">
+            <div class="glass cta-card glow-hover hover-trigger">
+                <h2 class="text-gradient cta-title">Let's Build Something Amazing! 🚀</h2>
+                <p class="cta-desc">
+                    I'm currently looking for new opportunities, internships, and exciting projects. 
+                    Whether you have a question, a project idea, or just want to chat about tech, my inbox is always open!
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=howbow4305@gmail.com" target="_blank" class="btn-primary hover-trigger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Get In Touch
+                    </a>
+                    <a href="https://drive.google.com/file/d/1q8CMHbAjiMeSOgORWOEX7c7SHe4CsDiF/view?usp=sharing" target="_blank" class="btn-primary hover-trigger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Download Resume
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p style="margin-bottom: 15px; font-size: 1.1rem;">Built with Energy ⚡ by Yash Vinay Kalyani</p>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">📍 Shahdol, Madhya Pradesh</p>
+        
+        <div class="footer-links" style="opacity: 0.9;">
+            
+            <a href="https://github.com/Yash4305d-y" target="_blank" class="hover-trigger">GitHub</a> |
+            <a href="https://www.linkedin.com/in/yash-vinay-kalyani-a6799a382" target="_blank" class="hover-trigger">LinkedIn</a>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. CURSOR ANIMATION LOGIC ---
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        window.addEventListener("mousemove", function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+            
+            cursorOutline.animate({
+                left: `${mouseX}px`,
+                top: `${mouseY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        const triggers = document.querySelectorAll('a, button, .hover-trigger');
+        triggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            trigger.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // --- 2. LOADER LOGIC ---
+        const codeLines = [
+            'const developer = new Yash();',
+            'developer.skills.load();',
+            'developer.projects.init();',
+            'developer.passion.activate();',
+            'await developer.ready();'
+        ];
+        const codeBox = document.getElementById('code-box');
+        const progressBar = document.getElementById('progress-bar');
+        const loadText = document.getElementById('loading-text');
+        const loader = document.getElementById('loader');
+        let progress = 0;
+
+        const dot = document.getElementById('orbit1');
+        let angle = 0;
+        function animateOrbit() {
+            angle += 0.05;
+            const x = Math.cos(angle) * 70;
+            const y = Math.sin(angle) * 70;
+            dot.style.transform = `translate(${x}px, ${y}px)`;
+            requestAnimationFrame(animateOrbit);
+        }
+        animateOrbit();
+
+        window.onload = () => {
+            codeLines.forEach((line, index) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'code-line';
+                    div.innerHTML = `<span class="checkmark">✓</span> ${line}`;
+                    codeBox.appendChild(div);
+                    setTimeout(() => div.classList.add('visible'), 50);
+                }, index * 400 + 300);
+            });
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    finishLoad();
+                }
+                progressBar.style.width = `${progress}%`;
+                loadText.innerText = `Initializing portfolio... ${Math.floor(progress)}%`;
+            }, 100);
+        };
+
+        function finishLoad() {
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    document.body.classList.add('loaded');
+                    initScrollAnimations();
+                    typeWriter(); // <--- ADD THIS LINE HERE
+                }, 800);
+            }, 800);
+        }
+
+        // --- 3. INTERACTIVE PARTICLE CANVAS ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.density = (Math.random() * 30) + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = Math.random() > 0.5 ? '#22c55e' : '#8b5cf6';
+            }
+            update() {
+                let dx = mouseX - this.x;
+                let dy = mouseY - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                let maxDistance = 150;
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * this.density;
+                let directionY = forceDirectionY * force * this.density;
+
+                if (distance < maxDistance) {
+                    this.x -= directionX;
+                    this.y -= directionY;
+                } else {
+                    if (this.x !== this.baseX) {
+                        let dx = this.x - this.baseX;
+                        this.x -= dx / 20;
+                    }
+                    if (this.y !== this.baseY) {
+                        let dy = this.y - this.baseY;
+                        this.y -= dy / 20;
+                    }
+                }
+
+                this.baseX += this.speedX;
+                this.baseY += this.speedY;
+
+                if (this.baseX > canvas.width || this.baseX < 0) this.speedX *= -1;
+                if (this.baseY > canvas.height || this.baseY < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 70; i++) particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 120) {
+                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.15 - distance/800})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        // --- 4. ADVANCED SCROLL ANIMATIONS ---
+function initScrollAnimations() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -50px 0px', // Triggers slightly before it enters the viewport
+        threshold: 0.15 // Triggers when 15% of the item is visible
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                
+                // Optional: Stop observing once revealed so it doesn't re-animate when scrolling up
+                // Remove the slashes on the next line if you want the animations to happen only once!
+                // observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+
+    // Target all elements with the .reveal class
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+        // --- 5. TYPEWRITER EFFECT ---
+        const textToType = "Hi, I'm Yash Vinay Kalyani 👋";
+        const typeElement = document.getElementById('typewriter-text');
+        let typeIndex = 0;
+        
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                typeElement.innerHTML += textToType.charAt(typeIndex);
+                typeIndex++;
+                // Slight randomization for human-like typing speed
+                let speed = Math.random() * 50 + 50; 
+                setTimeout(typeWriter, speed);
+            } else {
+                // Remove blinker after finishing
+                setTimeout(() => typeElement.classList.remove('cursor-blink'), 2000);
+            }
+        }
+
+        // We only want the typing to start AFTER the loading screen finishes
+        // *IMPORTANT: Locate your existing finishLoad() function in your code and add `typeWriter();` inside it, right after `document.body.classList.add('loaded');`*
+
+        // --- 6. LIVE GITHUB DATA FETCH ---
+        async function fetchGitHubStats() {
+            try {
+                // Fetch Chatbot Stats
+                const botRes = await fetch('https://api.github.com/repos/Yash4305d-y/AI_Chatbot');
+                if (botRes.ok) {
+                    const botData = await botRes.json();
+                    document.getElementById('cb-stars').innerText = botData.stargazers_count;
+                    document.getElementById('cb-forks').innerText = botData.forks_count;
+                }
+
+                // Fetch Backup Stats
+                const backupRes = await fetch('https://api.github.com/repos/Yash4305d-y/Automated_file_backup');
+                if (backupRes.ok) {
+                    const backupData = await backupRes.json();
+                    document.getElementById('bk-stars').innerText = backupData.stargazers_count;
+                    document.getElementById('bk-forks').innerText = backupData.forks_count;
+                }
+            } catch (error) {
+                console.error('GitHub fetch failed:', error);
+            }
+        }
+        fetchGitHubStats();
+
+        // --- 7. HIDDEN EASTER EGG (KEYLOGGER) ---
+        const secretCode = ['y', 'a', 's', 'h'];
+        let secretIndex = 0;
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === secretCode[secretIndex]) {
+                secretIndex++;
+                if (secretIndex === secretCode.length) {
+                    activateHackerMode();
+                    secretIndex = 0; // Reset
+                }
+            } else {
+                secretIndex = 0; // Reset if wrong key pressed
+            }
+        });
+
+        function activateHackerMode() {
+            // Overrides CSS variables to Matrix Green
+            document.documentElement.style.setProperty('--primary', '#0f0');
+            document.documentElement.style.setProperty('--accent', '#00ff00');
+            document.documentElement.style.setProperty('--glow-primary', 'rgba(0, 255, 0, 0.8)');
+            document.documentElement.style.setProperty('--glow-accent', 'rgba(0, 255, 0, 0.8)');
+            
+            // Speed up particles
+            particles.forEach(p => {
+                p.speedX *= 3;
+                p.speedY *= 3;
+                p.color = '#0f0';
+            });
+            
+            alert("ACCESS GRANTED: Hacker mode activated. 🕵️‍♂️");
+        }
+
+        // --- 8. UI SYNTHESIZED AUDIO (No files needed) ---
+        // Generates a futuristic, high-tech "blip" on the fly using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playHoverSound() {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); 
+            oscillator.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.05); 
+            
+            gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime); // Keep volume low (3%)
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.05);
+        }
+
+        // Attach sound to all interactive elements
+        document.querySelectorAll('.hover-trigger').forEach(el => {
+            el.addEventListener('mouseenter', playHoverSound);
+        });
+        // --- Unlock Audio Engine on First Click ---
+        // Browsers block sound until a user clicks. This silently unlocks it.
+        window.addEventListener('click', () => {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }, { once: true }); // The { once: true } means it only runs exactly one time!
+        
+    
+    </script>
+
+</body>
+</html>
